@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
-  base: '/markdrop/',
+  base: '/',
   test: {
     environment: 'jsdom',
     globals: true,
@@ -22,7 +22,7 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'standalone',
         orientation: 'any',
-        start_url: '/markdrop/',
+        start_url: '/',
         icons: [
           {
             src: 'icon.svg',
