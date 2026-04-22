@@ -8,7 +8,6 @@ function getSystemTheme(): ResolvedTheme {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
-
 export function useTheme(): { theme: Theme; mode: ThemeMode; setMode: (m: ThemeMode) => void } {
   const [mode, setModeState] = useState<ThemeMode>(
     () => (localStorage.getItem(STORAGE_KEY) as ThemeMode | null) ?? 'system'

@@ -3,7 +3,13 @@ import { Theme } from '../../theme'
 
 export type ViewMode = 'editor' | 'both' | 'preview'
 
-export function SegmentedControl({ value, onChange, options, theme: t, isMobile }: {
+export function SegmentedControl({
+  value,
+  onChange,
+  options,
+  theme: t,
+  isMobile,
+}: {
   value: ViewMode
   onChange: (v: ViewMode) => void
   options: { value: ViewMode; label: string }[]
@@ -11,7 +17,14 @@ export function SegmentedControl({ value, onChange, options, theme: t, isMobile 
   isMobile?: boolean
 }) {
   return (
-    <div style={{ display: 'flex', border: `1px solid ${t.border}`, borderRadius: '5px', overflow: 'hidden' }}>
+    <div
+      style={{
+        display: 'flex',
+        border: `1px solid ${t.border}`,
+        borderRadius: '5px',
+        overflow: 'hidden',
+      }}
+    >
       {options.map((opt) => (
         <button
           key={opt.value}

@@ -10,7 +10,8 @@ const theme = buildTheme('light')
 
 describe('EditorPane', () => {
   it('renders without crashing', () => {
-    const editorViewRef = createRef<EditorView | null>() as React.MutableRefObject<EditorView | null>
+    const editorViewRef =
+      createRef<EditorView | null>() as React.MutableRefObject<EditorView | null>
     render(
       <EditorPane
         theme={theme}

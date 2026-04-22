@@ -10,12 +10,7 @@ const theme = buildTheme('light')
 describe('ConfirmDialog', () => {
   it('renders message text', () => {
     render(
-      <ConfirmDialog
-        theme={theme}
-        message="Are you sure?"
-        onConfirm={vi.fn()}
-        onCancel={vi.fn()}
-      />
+      <ConfirmDialog theme={theme} message="Are you sure?" onConfirm={vi.fn()} onCancel={vi.fn()} />
     )
     expect(screen.getByText('Are you sure?')).toBeInTheDocument()
   })
@@ -69,12 +64,7 @@ describe('ConfirmDialog', () => {
   it('Escape key calls onCancel', async () => {
     const onCancel = vi.fn()
     render(
-      <ConfirmDialog
-        theme={theme}
-        message="Press escape"
-        onConfirm={vi.fn()}
-        onCancel={onCancel}
-      />
+      <ConfirmDialog theme={theme} message="Press escape" onConfirm={vi.fn()} onCancel={onCancel} />
     )
     await userEvent.keyboard('{Escape}')
     expect(onCancel).toHaveBeenCalledOnce()

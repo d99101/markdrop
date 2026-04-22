@@ -2,7 +2,14 @@
 import { Theme } from '../../theme'
 import { Dialog } from '../Dialog'
 
-export function ConfirmDialog({ theme: t, message, confirmLabel = 'Confirm', cancelLabel = 'Cancel', onConfirm, onCancel }: {
+export function ConfirmDialog({
+  theme: t,
+  message,
+  confirmLabel = 'Confirm',
+  cancelLabel = 'Cancel',
+  onConfirm,
+  onCancel,
+}: {
   theme: Theme
   message: string
   confirmLabel?: string
@@ -19,19 +26,29 @@ export function ConfirmDialog({ theme: t, message, confirmLabel = 'Confirm', can
         <button
           onClick={onCancel}
           style={{
-            background: 'none', border: `1px solid ${t.border}`, borderRadius: '6px',
-            padding: '0.35rem 0.9rem', fontSize: '0.85rem', cursor: 'pointer', color: t.textMuted,
+            background: 'none',
+            border: `1px solid ${t.border}`,
+            borderRadius: '6px',
+            padding: '0.35rem 0.9rem',
+            fontSize: '0.85rem',
+            cursor: 'pointer',
+            color: t.textMuted,
           }}
-          onMouseEnter={e => (e.currentTarget.style.background = t.hover)}
-          onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+          onMouseEnter={(e) => (e.currentTarget.style.background = t.hover)}
+          onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
         >
           {cancelLabel}
         </button>
         <button
           onClick={onConfirm}
           style={{
-            background: t.text, border: 'none', borderRadius: '6px',
-            padding: '0.35rem 0.9rem', fontSize: '0.85rem', cursor: 'pointer', color: t.surface,
+            background: t.text,
+            border: 'none',
+            borderRadius: '6px',
+            padding: '0.35rem 0.9rem',
+            fontSize: '0.85rem',
+            cursor: 'pointer',
+            color: t.surface,
             fontWeight: 600,
           }}
         >

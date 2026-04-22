@@ -22,7 +22,15 @@ import type { ViewMode } from './components/SegmentedControl'
 function App() {
   const { theme, mode: themeMode, setMode: setThemeMode } = useTheme()
   const isMobile = useIsMobile()
-  const { content, fileName, handleChange, handleFileNameChange, loadMarkdropReadme, readFile, startBlank } = useDocument()
+  const {
+    content,
+    fileName,
+    handleChange,
+    handleFileNameChange,
+    loadMarkdropReadme,
+    readFile,
+    startBlank,
+  } = useDocument()
   const { bannerState, onInstall, onDismiss } = useInstallPrompt()
   const [pendingFile, setPendingFile] = useState<File | null>(null)
   const handleFileDrop = (file: File) => {
@@ -71,26 +79,61 @@ function App() {
 
   if (content === null) {
     return (
-      <WelcomeModal theme={t} dragging={dragging} onDrop={onDrop} onDragOver={onDragOver} onDragLeave={onDragLeave} onStartBlank={startBlank} />
+      <WelcomeModal
+        theme={t}
+        dragging={dragging}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+        onStartBlank={startBlank}
+      />
     )
   }
 
   return (
-    <div onDrop={onDrop} onDragOver={onDragOver} onDragLeave={onDragLeave} style={{
-      display: 'flex', flexDirection: 'column', height: '100vh',
-      fontFamily: 'system-ui, sans-serif', background: t.bg, color: t.text,
-      outline: dragging ? '3px dashed #4a7fff' : 'none', outlineOffset: '-3px', transition: 'outline 0.1s',
-    }}>
-      <AppHeader theme={t} themeMode={themeMode} onThemeCycle={cycleTheme} onLogoClick={loadMarkdropReadme} isMobile={isMobile} />
-      <Toolbar theme={t} fileName={fileName} onFileNameChange={handleFileNameChange} onDownload={handleDownload}
-        onReset={() => setShowResetConfirm(true)} viewMode={effectiveViewMode} onViewModeChange={setViewMode} isMobile={isMobile} />
+    <div
+      onDrop={onDrop}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        fontFamily: 'system-ui, sans-serif',
+        background: t.bg,
+        color: t.text,
+        outline: dragging ? '3px dashed #4a7fff' : 'none',
+        outlineOffset: '-3px',
+        transition: 'outline 0.1s',
+      }}
+    >
+      <AppHeader
+        theme={t}
+        themeMode={themeMode}
+        onThemeCycle={cycleTheme}
+        onLogoClick={loadMarkdropReadme}
+        isMobile={isMobile}
+      />
+      <Toolbar
+        theme={t}
+        fileName={fileName}
+        onFileNameChange={handleFileNameChange}
+        onDownload={handleDownload}
+        onReset={() => setShowResetConfirm(true)}
+        viewMode={effectiveViewMode}
+        onViewModeChange={setViewMode}
+        isMobile={isMobile}
+      />
       {showResetConfirm && (
         <ConfirmDialog
           theme={t}
           message="Start a new file? Any unsaved content will be lost."
           confirmLabel="New file"
           cancelLabel="Cancel"
-          onConfirm={() => { setShowResetConfirm(false); startBlank() }}
+          onConfirm={() => {
+            setShowResetConfirm(false)
+            startBlank()
+          }}
           onCancel={() => setShowResetConfirm(false)}
         />
       )}
@@ -100,16 +143,26 @@ function App() {
           message={`Replace current file with "${pendingFile.name}"? Unsaved content will be lost.`}
           confirmLabel="Replace"
           cancelLabel="Cancel"
-          onConfirm={() => { readFile(pendingFile); setPendingFile(null) }}
+          onConfirm={() => {
+            readFile(pendingFile)
+            setPendingFile(null)
+          }}
           onCancel={() => setPendingFile(null)}
         />
       )}
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden', minHeight: 0 }}>
         {(effectiveViewMode === 'editor' || effectiveViewMode === 'both') && (
           <ErrorBoundary theme={t}>
-            <EditorPane theme={t} content={content} editorViewRef={editorViewRef}
-              wordCount={wordCount} charCount={(content ?? '').length}
-              onChange={handleChange} showBorder={effectiveViewMode === 'both'} isMobile={isMobile} />
+            <EditorPane
+              theme={t}
+              content={content}
+              editorViewRef={editorViewRef}
+              wordCount={wordCount}
+              charCount={(content ?? '').length}
+              onChange={handleChange}
+              showBorder={effectiveViewMode === 'both'}
+              isMobile={isMobile}
+            />
           </ErrorBoundary>
         )}
         {(effectiveViewMode === 'preview' || effectiveViewMode === 'both') && (
@@ -118,17 +171,33 @@ function App() {
           </ErrorBoundary>
         )}
       </div>
-      <Footer theme={t} wordCount={isMobile ? wordCount : undefined} charCount={isMobile ? (content ?? '').length : undefined} />
+      <Footer
+        theme={t}
+        wordCount={isMobile ? wordCount : undefined}
+        charCount={isMobile ? (content ?? '').length : undefined}
+      />
       <InstallBanner theme={t} state={bannerState} onInstall={onInstall} onDismiss={onDismiss} />
       {emptyHint.state !== 'hidden' && (
-        <div style={{
-          position: 'fixed', top: '1.5rem', left: '50%', transform: 'translateX(-50%)',
-          background: t.surface, border: `1px solid ${t.border}`, borderRadius: '8px',
-          padding: '0.55rem 1rem', fontSize: '0.82rem', color: t.textMuted,
-          boxShadow: '0 4px 16px rgba(0,0,0,0.12)', zIndex: 1000,
-          opacity: emptyHint.state === 'visible' ? 1 : 0, transition: 'opacity 0.6s ease',
-          whiteSpace: 'nowrap', pointerEvents: 'none',
-        }}>
+        <div
+          style={{
+            position: 'fixed',
+            top: '1.5rem',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: t.surface,
+            border: `1px solid ${t.border}`,
+            borderRadius: '8px',
+            padding: '0.55rem 1rem',
+            fontSize: '0.82rem',
+            color: t.textMuted,
+            boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+            zIndex: 1000,
+            opacity: emptyHint.state === 'visible' ? 1 : 0,
+            transition: 'opacity 0.6s ease',
+            whiteSpace: 'nowrap',
+            pointerEvents: 'none',
+          }}
+        >
           Nothing to download — file is empty
         </div>
       )}

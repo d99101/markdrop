@@ -6,16 +6,19 @@ const ALLOWED_EXTENSIONS = ['.md', '.markdown', '.txt']
 export function useDragDrop(onFile: (file: File) => void) {
   const [dragging, setDragging] = useState(false)
 
-  const onDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragging(false)
-    const file = e.dataTransfer.files[0]
-    if (!file) return
-    const ext = '.' + file.name.split('.').pop()?.toLowerCase()
-    if (!ALLOWED_EXTENSIONS.includes(ext)) return
-    onFile(file)
-  }, [onFile])
+  const onDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      setDragging(false)
+      const file = e.dataTransfer.files[0]
+      if (!file) return
+      const ext = '.' + file.name.split('.').pop()?.toLowerCase()
+      if (!ALLOWED_EXTENSIONS.includes(ext)) return
+      onFile(file)
+    },
+    [onFile]
+  )
 
   const onDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault()

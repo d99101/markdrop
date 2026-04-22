@@ -2,7 +2,15 @@
 import { useState, CSSProperties, ReactNode } from 'react'
 import { Theme } from '../../theme'
 
-export function IconButton({ onClick, title, ariaLabel, theme: t, style, isMobile, children }: {
+export function IconButton({
+  onClick,
+  title,
+  ariaLabel,
+  theme: t,
+  style,
+  isMobile,
+  children,
+}: {
   onClick: () => void
   title: string
   ariaLabel?: string
@@ -19,11 +27,16 @@ export function IconButton({ onClick, title, ariaLabel, theme: t, style, isMobil
       title={title}
       aria-label={ariaLabel ?? title}
       style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        width: size, height: size,
-        border: `1px solid ${t.border}`, borderRadius: '4px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: size,
+        height: size,
+        border: `1px solid ${t.border}`,
+        borderRadius: '4px',
         background: hovered ? t.hover : 'none',
-        cursor: 'pointer', color: t.text,
+        cursor: 'pointer',
+        color: t.text,
         ...style,
       }}
       onMouseEnter={() => setHovered(true)}

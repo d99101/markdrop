@@ -2,7 +2,11 @@
 import { useState } from 'react'
 import { Theme } from '../../theme'
 
-export function EditableFileName({ fileName, onChange, theme: t }: {
+export function EditableFileName({
+  fileName,
+  onChange,
+  theme: t,
+}: {
   fileName: string
   onChange: (name: string) => void
   theme: Theme
@@ -27,11 +31,14 @@ export function EditableFileName({ fileName, onChange, theme: t }: {
       <input
         autoFocus
         value={draft}
-        onChange={e => setDraft(e.target.value)}
+        onChange={(e) => setDraft(e.target.value)}
         onBlur={commit}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           if (e.key === 'Enter') commit()
-          if (e.key === 'Escape') { setDraft(fileName); setEditing(false) }
+          if (e.key === 'Escape') {
+            setDraft(fileName)
+            setEditing(false)
+          }
         }}
         style={{
           flex: 1,
@@ -60,8 +67,8 @@ export function EditableFileName({ fileName, onChange, theme: t }: {
         color: t.textMuted,
         fontSize: '0.85rem',
       }}
-      onMouseEnter={e => (e.currentTarget.style.background = t.hover)}
-      onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+      onMouseEnter={(e) => (e.currentTarget.style.background = t.hover)}
+      onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
     >
       {fileName}
     </span>

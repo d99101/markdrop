@@ -4,7 +4,12 @@ import { Theme } from '../../theme'
 
 const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
 
-export function Dialog({ theme: t, onClose, children, maxWidth = 420 }: {
+export function Dialog({
+  theme: t,
+  onClose,
+  children,
+  maxWidth = 420,
+}: {
   theme: Theme
   onClose: () => void
   children: ReactNode
@@ -49,18 +54,23 @@ export function Dialog({ theme: t, onClose, children, maxWidth = 420 }: {
     <div
       onClick={onClose}
       style={{
-        position: 'fixed', inset: 0, zIndex: 200,
+        position: 'fixed',
+        inset: 0,
+        zIndex: 200,
         background: 'rgba(0,0,0,0.45)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
         style={{
-          width: '100%', maxWidth,
+          width: '100%',
+          maxWidth,
           background: t.surface,
           border: `1px solid ${t.border}`,
           borderRadius: '10px',

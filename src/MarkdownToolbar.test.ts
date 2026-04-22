@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { EditorView } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
-import { applyAction } from './MarkdownToolbar'
+import { applyAction } from './markdownActions'
 
 function makeView(doc: string, anchor: number, head = anchor) {
   const state = EditorState.create({ doc, selection: { anchor, head } })

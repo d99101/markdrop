@@ -28,7 +28,9 @@ describe('SegmentedControl', () => {
 
   it('calls onChange when an option is clicked', async () => {
     const handleChange = vi.fn()
-    render(<SegmentedControl value="both" onChange={handleChange} options={options} theme={theme} />)
+    render(
+      <SegmentedControl value="both" onChange={handleChange} options={options} theme={theme} />
+    )
     await userEvent.click(screen.getByText('Preview'))
     expect(handleChange).toHaveBeenCalledWith('preview')
   })

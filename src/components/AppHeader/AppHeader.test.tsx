@@ -24,24 +24,14 @@ describe('AppHeader', () => {
 
   it('theme button shows correct icon title for system mode', () => {
     render(
-      <AppHeader
-        theme={theme}
-        themeMode="system"
-        onThemeCycle={() => {}}
-        onLogoClick={() => {}}
-      />
+      <AppHeader theme={theme} themeMode="system" onThemeCycle={() => {}} onLogoClick={() => {}} />
     )
     expect(screen.getByTitle('System theme')).toBeInTheDocument()
   })
 
   it('theme button shows correct icon title for light mode', () => {
     render(
-      <AppHeader
-        theme={theme}
-        themeMode="light"
-        onThemeCycle={() => {}}
-        onLogoClick={() => {}}
-      />
+      <AppHeader theme={theme} themeMode="light" onThemeCycle={() => {}} onLogoClick={() => {}} />
     )
     expect(screen.getByTitle('Light theme')).toBeInTheDocument()
   })

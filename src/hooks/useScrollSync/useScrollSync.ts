@@ -19,16 +19,21 @@ export function useScrollSync(
     const onEditorScroll = () => {
       if (syncingRef.current) return
       syncingRef.current = true
-      const pct = editorScroll.scrollTop / (editorScroll.scrollHeight - editorScroll.clientHeight || 1)
+      const pct =
+        editorScroll.scrollTop / (editorScroll.scrollHeight - editorScroll.clientHeight || 1)
       preview.scrollTop = pct * (preview.scrollHeight - preview.clientHeight)
-      requestAnimationFrame(() => { syncingRef.current = false })
+      requestAnimationFrame(() => {
+        syncingRef.current = false
+      })
     }
     const onPreviewScroll = () => {
       if (syncingRef.current) return
       syncingRef.current = true
       const pct = preview.scrollTop / (preview.scrollHeight - preview.clientHeight || 1)
       editorScroll.scrollTop = pct * (editorScroll.scrollHeight - editorScroll.clientHeight)
-      requestAnimationFrame(() => { syncingRef.current = false })
+      requestAnimationFrame(() => {
+        syncingRef.current = false
+      })
     }
 
     editorScroll.addEventListener('scroll', onEditorScroll)
