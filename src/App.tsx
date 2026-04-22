@@ -93,6 +93,7 @@ function App() {
 
   return (
     <div
+      className={t.resolved === 'dark' ? 'dark-scrollbar' : undefined}
       onDrop={onDrop}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
