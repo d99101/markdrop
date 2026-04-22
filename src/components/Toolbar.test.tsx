@@ -16,6 +16,7 @@ describe('Toolbar', () => {
         fileName="test.md"
         onFileNameChange={() => {}}
         onDownload={handleDownload}
+        onReset={() => {}}
         viewMode="both"
         onViewModeChange={() => {}}
         isMobile={false}
@@ -33,6 +34,7 @@ describe('Toolbar', () => {
         fileName="test.md"
         onFileNameChange={() => {}}
         onDownload={() => {}}
+        onReset={() => {}}
         viewMode="both"
         onViewModeChange={handleViewModeChange}
         isMobile={false}
