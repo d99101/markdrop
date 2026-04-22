@@ -1,5 +1,5 @@
 // Copyright (c) 2026 David Linde. MIT License.
-import { DragEventHandler } from 'react'
+import { DragEventHandler, useRef } from 'react'
 import { Theme } from '../../theme'
 import { Footer } from '../Footer'
 
@@ -10,6 +10,7 @@ export function WelcomeModal({
   onDragOver,
   onDragLeave,
   onStartBlank,
+  onOpenFile,
 }: {
   theme: Theme
   dragging: boolean
@@ -17,7 +18,10 @@ export function WelcomeModal({
   onDragOver: DragEventHandler
   onDragLeave: DragEventHandler
   onStartBlank: () => void
+  onOpenFile: (file: File) => void
 }) {
+  const inputRef = useRef<HTMLInputElement>(null)
+
   return (
     <div
       onDrop={onDrop}
@@ -111,22 +115,50 @@ export function WelcomeModal({
             </span>
           </div>
 
-          <button
-            onClick={onStartBlank}
-            style={{
-              background: 'none',
-              border: `1px solid ${t.border}`,
-              borderRadius: '6px',
-              padding: '0.4rem 1rem',
-              cursor: 'pointer',
-              fontSize: '0.85rem',
-              color: t.textMuted,
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = t.hover)}
-            onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
-          >
-            Start with a blank file
-          </button>
+          <div style={{ display: 'flex', gap: '0.6rem', justifyContent: 'center' }}>
+            <input
+              ref={inputRef}
+              type="file"
+              accept=".md,.markdown,.txt"
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) onOpenFile(file)
+                e.target.value = ''
+              }}
+            />
+            <button
+              onClick={() => inputRef.current?.click()}
+              style={{
+                background: t.text,
+                color: t.surface,
+                border: 'none',
+                borderRadius: '6px',
+                padding: '0.4rem 1rem',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+              }}
+            >
+              Open file
+            </button>
+            <button
+              onClick={onStartBlank}
+              style={{
+                background: 'none',
+                border: `1px solid ${t.border}`,
+                borderRadius: '6px',
+                padding: '0.4rem 1rem',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                color: t.textMuted,
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = t.hover)}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
+            >
+              Start blank
+            </button>
+          </div>
         </div>
       </div>
 

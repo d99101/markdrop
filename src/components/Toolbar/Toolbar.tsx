@@ -1,4 +1,5 @@
 // Copyright (c) 2026 David Linde. MIT License.
+import { useRef } from 'react'
 import { Theme } from '../../theme'
 import { EditableFileName } from '../EditableFileName'
 import { IconButton } from '../IconButton'
@@ -10,6 +11,7 @@ export function Toolbar({
   onFileNameChange,
   onDownload,
   onReset,
+  onOpenFile,
   viewMode,
   onViewModeChange,
   isMobile,
@@ -19,10 +21,13 @@ export function Toolbar({
   onFileNameChange: (name: string) => void
   onDownload: () => void
   onReset: () => void
+  onOpenFile: (file: File) => void
   viewMode: ViewMode
   onViewModeChange: (v: ViewMode) => void
   isMobile: boolean
 }) {
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
   return (
     <div
       style={{
@@ -36,7 +41,31 @@ export function Toolbar({
         color: t.textMuted,
       }}
     >
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".md,.markdown,.txt"
+        style={{ display: 'none' }}
+        onChange={(e) => {
+          const file = e.target.files?.[0]
+          if (file) onOpenFile(file)
+          e.target.value = ''
+        }}
+      />
       <EditableFileName fileName={fileName} onChange={onFileNameChange} theme={t} />
+
+      {isMobile && (
+        <IconButton
+          onClick={() => fileInputRef.current?.click()}
+          title="Open file"
+          theme={t}
+          isMobile={isMobile}
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+          </svg>
+        </IconButton>
+      )}
 
       <IconButton onClick={onReset} title="New file" theme={t} isMobile={isMobile}>
         <svg

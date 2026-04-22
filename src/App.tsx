@@ -86,6 +86,7 @@ function App() {
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onStartBlank={startBlank}
+        onOpenFile={readFile}
       />
     )
   }
@@ -120,6 +121,7 @@ function App() {
         onFileNameChange={handleFileNameChange}
         onDownload={handleDownload}
         onReset={() => setShowResetConfirm(true)}
+        onOpenFile={handleFileDrop}
         viewMode={effectiveViewMode}
         onViewModeChange={setViewMode}
         isMobile={isMobile}

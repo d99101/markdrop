@@ -6,63 +6,42 @@ import { WelcomeModal } from './WelcomeModal'
 import { buildTheme } from '../../theme'
 
 const theme = buildTheme('light')
+const noop = () => {}
+const defaultProps = {
+  theme,
+  dragging: false,
+  onDrop: noop,
+  onDragOver: noop,
+  onDragLeave: noop,
+  onStartBlank: noop,
+  onOpenFile: noop,
+}
 
 describe('WelcomeModal', () => {
   it('renders drag text', () => {
-    render(
-      <WelcomeModal
-        theme={theme}
-        dragging={false}
-        onDrop={() => {}}
-        onDragOver={() => {}}
-        onDragLeave={() => {}}
-        onStartBlank={() => {}}
-      />
-    )
+    render(<WelcomeModal {...defaultProps} />)
     expect(screen.getByText(/drag & drop/i)).toBeInTheDocument()
   })
 
-  it('renders "Start with a blank file"', () => {
-    render(
-      <WelcomeModal
-        theme={theme}
-        dragging={false}
-        onDrop={() => {}}
-        onDragOver={() => {}}
-        onDragLeave={() => {}}
-        onStartBlank={() => {}}
-      />
-    )
-    expect(screen.getByText(/start with a blank file/i)).toBeInTheDocument()
+  it('renders "Start blank" button', () => {
+    render(<WelcomeModal {...defaultProps} />)
+    expect(screen.getByText(/start blank/i)).toBeInTheDocument()
+  })
+
+  it('renders "Open file" button', () => {
+    render(<WelcomeModal {...defaultProps} />)
+    expect(screen.getByText(/open file/i)).toBeInTheDocument()
   })
 
   it('click fires onStartBlank', async () => {
     const handleStartBlank = vi.fn()
-    render(
-      <WelcomeModal
-        theme={theme}
-        dragging={false}
-        onDrop={() => {}}
-        onDragOver={() => {}}
-        onDragLeave={() => {}}
-        onStartBlank={handleStartBlank}
-      />
-    )
-    await userEvent.click(screen.getByText(/start with a blank file/i))
+    render(<WelcomeModal {...defaultProps} onStartBlank={handleStartBlank} />)
+    await userEvent.click(screen.getByText(/start blank/i))
     expect(handleStartBlank).toHaveBeenCalledOnce()
   })
 
   it('dragging=true shows different text', () => {
-    render(
-      <WelcomeModal
-        theme={theme}
-        dragging={true}
-        onDrop={() => {}}
-        onDragOver={() => {}}
-        onDragLeave={() => {}}
-        onStartBlank={() => {}}
-      />
-    )
+    render(<WelcomeModal {...defaultProps} dragging={true} />)
     expect(screen.getByText(/release to open/i)).toBeInTheDocument()
   })
 })

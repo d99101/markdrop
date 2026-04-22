@@ -16,12 +16,12 @@ describe('App', () => {
 
   it('welcome screen has start blank button', () => {
     render(<App />)
-    expect(screen.getByText(/start with a blank file/i)).toBeInTheDocument()
+    expect(screen.getByText(/start blank/i)).toBeInTheDocument()
   })
 
   it('clicking start blank shows editor', async () => {
     render(<App />)
-    await userEvent.click(screen.getByText(/start with a blank file/i))
+    await userEvent.click(screen.getByText(/start blank/i))
     expect(screen.getByText('Markdrop')).toBeInTheDocument()
   })
 
