@@ -17,6 +17,7 @@ describe('Toolbar', () => {
         onFileNameChange={() => {}}
         onDownload={handleDownload}
         onReset={() => {}}
+        onOpenFile={() => {}}
         viewMode="both"
         onViewModeChange={() => {}}
         isMobile={false}
@@ -35,6 +36,7 @@ describe('Toolbar', () => {
         onFileNameChange={() => {}}
         onDownload={() => {}}
         onReset={() => {}}
+        onOpenFile={() => {}}
         viewMode="both"
         onViewModeChange={handleViewModeChange}
         isMobile={false}
