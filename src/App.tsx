@@ -14,6 +14,10 @@ import { Theme } from './theme'
 import { MARKDROP_README } from './markdropReadme'
 import pkg from '../package.json'
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>
+}
+
 const SESSION_KEY = 'markdrop_content'
 const SESSION_FILE_KEY = 'markdrop_filename'
 
@@ -84,6 +88,8 @@ function App() {
   const [fileName, setFileName] = useState<string>(getInitialFileName)
   const [dragging, setDragging] = useState(false)
   const [viewMode, setViewMode] = useState<'editor' | 'both' | 'preview'>('both')
+  const [installPrompt, setInstallPrompt] = useState<Event | null>(null)
+  const [installBanner, setInstallBanner] = useState<'hidden' | 'visible' | 'fading'>('hidden')
   const effectiveViewMode = isMobile && viewMode === 'both' ? 'editor' : viewMode
   const editorViewRef = useRef<EditorView | null>(null)
   const previewRef = useRef<HTMLDivElement | null>(null)
@@ -124,6 +130,31 @@ function App() {
     }
   }, [effectiveViewMode])
 
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault()
+      setInstallPrompt(e)
+      setInstallBanner('visible')
+      const fadeTimer = setTimeout(() => setInstallBanner('fading'), 3500)
+      const hideTimer = setTimeout(() => setInstallBanner('hidden'), 4200)
+      return () => { clearTimeout(fadeTimer); clearTimeout(hideTimer) }
+    }
+    window.addEventListener('beforeinstallprompt', handler)
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+
+  const handleInstallClick = useCallback(async () => {
+    if (!installPrompt) return
+    ;(installPrompt as BeforeInstallPromptEvent).prompt()
+    setInstallBanner('fading')
+    setTimeout(() => setInstallBanner('hidden'), 700)
+    setInstallPrompt(null)
+  }, [installPrompt])
+
+  const handleInstallDismiss = useCallback(() => {
+    setInstallBanner('fading')
+    setTimeout(() => setInstallBanner('hidden'), 700)
+  }, [])
 
   const handleChange = useCallback((value: string) => {
     setContent(value)
@@ -396,6 +427,62 @@ function App() {
       </div>
 
       <Footer theme={t} />
+
+      {installBanner !== 'hidden' && (
+        <div style={{
+          position: 'fixed',
+          bottom: '1.5rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: t.surface,
+          border: `1px solid ${t.border}`,
+          borderRadius: '10px',
+          padding: '0.65rem 1rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.75rem',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          fontSize: '0.85rem',
+          color: t.text,
+          zIndex: 1000,
+          opacity: installBanner === 'visible' ? 1 : 0,
+          transition: 'opacity 0.6s ease',
+          whiteSpace: 'nowrap',
+        }}>
+          <img src={`${import.meta.env.BASE_URL}icon.svg`} width={20} height={20} alt="" />
+          <span>Install Markdrop app</span>
+          <button
+            onClick={handleInstallClick}
+            style={{
+              background: t.text,
+              color: t.surface,
+              border: 'none',
+              borderRadius: '6px',
+              padding: '0.3rem 0.75rem',
+              fontSize: '0.8rem',
+              cursor: 'pointer',
+              fontWeight: 600,
+            }}
+          >
+            Install
+          </button>
+          <button
+            onClick={handleInstallDismiss}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: t.textMuted,
+              fontSize: '1rem',
+              lineHeight: 1,
+              padding: '0 0.1rem',
+            }}
+            title="Dismiss"
+          >
+            ×
+          </button>
+        </div>
+      )}
     </div>
   )
 }
