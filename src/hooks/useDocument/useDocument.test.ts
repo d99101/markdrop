@@ -1,11 +1,16 @@
 // Copyright (c) 2026 David Linde. MIT License.
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { useDocument } from './useDocument'
 import { MARKDROP_README } from '../../markdropReadme'
 
 beforeEach(() => {
   sessionStorage.clear()
+  vi.useFakeTimers({ shouldAdvanceTime: true })
+})
+
+afterEach(() => {
+  vi.useRealTimers()
 })
 
 describe('useDocument', () => {
@@ -20,10 +25,15 @@ describe('useDocument', () => {
     expect(result.current.content).toBe('')
   })
 
-  it('handleChange updates content and persists to sessionStorage', () => {
+  it('handleChange updates content immediately and persists to sessionStorage after debounce', () => {
     const { result } = renderHook(() => useDocument())
     act(() => result.current.handleChange('# Hello'))
+    // Content state is immediate
     expect(result.current.content).toBe('# Hello')
+    // sessionStorage write is debounced — not set yet
+    expect(sessionStorage.getItem('markdrop_content')).toBeNull()
+    // After 500ms debounce, sessionStorage is written
+    act(() => vi.advanceTimersByTime(500))
     expect(sessionStorage.getItem('markdrop_content')).toBe('# Hello')
   })
 

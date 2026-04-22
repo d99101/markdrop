@@ -1,5 +1,6 @@
 // Copyright (c) 2026 David Linde. MIT License.
 import { useState, useCallback, useEffect } from 'react'
+import { useToast } from '../useToast'
 
 export interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>
@@ -7,33 +8,28 @@ export interface BeforeInstallPromptEvent extends Event {
 
 export function useInstallPrompt() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
-  const [bannerState, setBannerState] = useState<'hidden' | 'visible' | 'fading'>('hidden')
+  const { state: bannerState, show, dismiss } = useToast(3500)
 
   useEffect(() => {
     const handler = (e: Event) => {
       e.preventDefault()
       setInstallPrompt(e as BeforeInstallPromptEvent)
-      setBannerState('visible')
-      const fadeTimer = setTimeout(() => setBannerState('fading'), 3500)
-      const hideTimer = setTimeout(() => setBannerState('hidden'), 4200)
-      return () => { clearTimeout(fadeTimer); clearTimeout(hideTimer) }
+      show()
     }
     window.addEventListener('beforeinstallprompt', handler)
     return () => window.removeEventListener('beforeinstallprompt', handler)
-  }, [])
+  }, [show])
 
   const onInstall = useCallback(async () => {
     if (!installPrompt) return
     installPrompt.prompt()
-    setBannerState('fading')
-    setTimeout(() => setBannerState('hidden'), 700)
+    dismiss()
     setInstallPrompt(null)
-  }, [installPrompt])
+  }, [installPrompt, dismiss])
 
   const onDismiss = useCallback(() => {
-    setBannerState('fading')
-    setTimeout(() => setBannerState('hidden'), 700)
-  }, [])
+    dismiss()
+  }, [dismiss])
 
   return { bannerState, onInstall, onDismiss }
 }

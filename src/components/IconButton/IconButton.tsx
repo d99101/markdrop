@@ -2,9 +2,10 @@
 import { useState, CSSProperties, ReactNode } from 'react'
 import { Theme } from '../../theme'
 
-export function IconButton({ onClick, title, theme: t, style, children }: {
+export function IconButton({ onClick, title, ariaLabel, theme: t, style, children }: {
   onClick: () => void
   title: string
+  ariaLabel?: string
   theme: Theme
   style?: CSSProperties
   children: ReactNode
@@ -14,6 +15,7 @@ export function IconButton({ onClick, title, theme: t, style, children }: {
     <button
       onClick={onClick}
       title={title}
+      aria-label={ariaLabel ?? title}
       style={{
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         width: 28, height: 28,

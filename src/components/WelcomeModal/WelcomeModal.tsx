@@ -16,6 +16,8 @@ export function WelcomeModal({ theme: t, dragging, onDrop, onDragOver, onDragLea
       onDrop={onDrop}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
+      role="region"
+      aria-label="Drop zone"
       style={{
         height: '100vh',
         display: 'flex',

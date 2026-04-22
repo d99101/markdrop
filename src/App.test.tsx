@@ -37,4 +37,12 @@ describe('App', () => {
     await userEvent.click(screen.getByText('About'))
     expect(screen.getByText('Built with')).toBeInTheDocument()
   })
+
+  it('shows nothing-to-download toast when content is empty and download clicked', async () => {
+    sessionStorage.setItem('markdrop_content', '   ')
+    render(<App />)
+    const downloadBtn = screen.getByTitle(/download/i)
+    await userEvent.click(downloadBtn)
+    expect(screen.getByText(/nothing to download/i)).toBeInTheDocument()
+  })
 })

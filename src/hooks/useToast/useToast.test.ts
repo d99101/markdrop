@@ -1,0 +1,39 @@
+// Copyright (c) 2026 David Linde. MIT License.
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { renderHook, act } from '@testing-library/react'
+import { useToast } from './useToast'
+
+beforeEach(() => {
+  vi.useFakeTimers()
+})
+
+afterEach(() => {
+  vi.useRealTimers()
+})
+
+describe('useToast', () => {
+  it('state starts hidden', () => {
+    const { result } = renderHook(() => useToast())
+    expect(result.current.state).toBe('hidden')
+  })
+
+  it('show() sets state to visible', () => {
+    const { result } = renderHook(() => useToast())
+    act(() => result.current.show())
+    expect(result.current.state).toBe('visible')
+  })
+
+  it('transitions to fading after visibleMs', () => {
+    const { result } = renderHook(() => useToast(2000))
+    act(() => result.current.show())
+    act(() => vi.advanceTimersByTime(2000))
+    expect(result.current.state).toBe('fading')
+  })
+
+  it('transitions to hidden after visibleMs + 700', () => {
+    const { result } = renderHook(() => useToast(2000))
+    act(() => result.current.show())
+    act(() => vi.advanceTimersByTime(2700))
+    expect(result.current.state).toBe('hidden')
+  })
+})

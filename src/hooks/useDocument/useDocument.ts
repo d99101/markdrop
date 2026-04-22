@@ -1,5 +1,5 @@
 // Copyright (c) 2026 David Linde. MIT License.
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { MARKDROP_README } from '../../markdropReadme'
 
 export const SESSION_KEY = 'markdrop_content'
@@ -16,10 +16,14 @@ function getInitialFileName(): string {
 export function useDocument() {
   const [content, setContent] = useState<string | null>(getInitialContent)
   const [fileName, setFileName] = useState<string>(getInitialFileName)
+  const sessionSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleChange = useCallback((value: string) => {
     setContent(value)
-    sessionStorage.setItem(SESSION_KEY, value)
+    if (sessionSaveTimer.current) clearTimeout(sessionSaveTimer.current)
+    sessionSaveTimer.current = setTimeout(() => {
+      sessionStorage.setItem(SESSION_KEY, value)
+    }, 500)
   }, [])
 
   const handleFileNameChange = useCallback((name: string) => {
@@ -43,6 +47,7 @@ export function useDocument() {
       sessionStorage.setItem(SESSION_KEY, text)
       sessionStorage.setItem(SESSION_FILE_KEY, file.name)
     }
+    reader.onerror = () => console.error('Failed to read file')
     reader.readAsText(file)
   }, [])
 
