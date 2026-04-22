@@ -5,12 +5,29 @@ import { AboutDialog } from '../AboutDialog'
 import { GitHubIcon } from '../icons'
 import pkg from '../../../package.json'
 
-export function Footer({ theme: t }: { theme: Theme }) {
+export function Footer({ theme: t, wordCount, charCount }: {
+  theme: Theme
+  wordCount?: number
+  charCount?: number
+}) {
   const [showAbout, setShowAbout] = useState(false)
   const footerBg = t.resolved === 'dark' ? '#1a1a1a' : '#f0f0f0'
   return (
     <>
       {showAbout && <AboutDialog theme={t} onClose={() => setShowAbout(false)} />}
+      {wordCount !== undefined && (
+        <div style={{
+          padding: '0.25rem 0.75rem',
+          borderTop: `1px solid ${t.border}`,
+          background: t.surface,
+          fontSize: '0.72rem',
+          color: t.textMuted,
+          opacity: 0.8,
+          textAlign: 'center',
+        }}>
+          {wordCount} {wordCount === 1 ? 'word' : 'words'} · {charCount} chars
+        </div>
+      )}
       <div style={{
         display: 'flex',
         alignItems: 'center',

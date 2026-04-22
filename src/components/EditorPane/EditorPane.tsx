@@ -13,7 +13,7 @@ const markdownKeymap = keymap.of([
   { key: 'Mod-k', run: (v) => { applyAction(v, { type: 'wrap', before: '[', after: '](url)', placeholder: 'link text' }); return true } },
 ])
 
-export function EditorPane({ theme: t, content, editorViewRef, wordCount, charCount, onChange, showBorder }: {
+export function EditorPane({ theme: t, content, editorViewRef, wordCount, charCount, onChange, showBorder, isMobile }: {
   theme: Theme
   content: string
   editorViewRef: React.MutableRefObject<EditorView | null>
@@ -21,10 +21,11 @@ export function EditorPane({ theme: t, content, editorViewRef, wordCount, charCo
   charCount: number
   onChange: (v: string) => void
   showBorder: boolean
+  isMobile?: boolean
 }) {
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', borderRight: showBorder ? `1px solid ${t.border}` : 'none' }}>
-      <MarkdownToolbar editorViewRef={editorViewRef} theme={t} />
+      <MarkdownToolbar editorViewRef={editorViewRef} theme={t} isMobile={isMobile} />
       <div style={{ flex: 1, overflow: 'auto' }}>
         <CodeMirror
           value={content}
@@ -36,17 +37,19 @@ export function EditorPane({ theme: t, content, editorViewRef, wordCount, charCo
           style={{ height: '100%', fontSize: '0.95rem' }}
         />
       </div>
-      <div style={{
-        padding: '0.25rem 0.75rem',
-        borderTop: `1px solid ${t.border}`,
-        background: t.surface,
-        fontSize: '0.72rem',
-        color: t.textMuted,
-        opacity: 0.8,
-        flexShrink: 0,
-      }}>
-        {wordCount} {wordCount === 1 ? 'word' : 'words'} · {charCount} chars
-      </div>
+      {!isMobile && (
+        <div style={{
+          padding: '0.25rem 0.75rem',
+          borderTop: `1px solid ${t.border}`,
+          background: t.surface,
+          fontSize: '0.72rem',
+          color: t.textMuted,
+          opacity: 0.8,
+          flexShrink: 0,
+        }}>
+          {wordCount} {wordCount === 1 ? 'word' : 'words'} · {charCount} chars
+        </div>
+      )}
     </div>
   )
 }

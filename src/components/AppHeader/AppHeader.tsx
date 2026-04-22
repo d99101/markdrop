@@ -6,15 +6,16 @@ import { IconButton } from '../IconButton'
 const THEME_ICONS = { system: <SystemIcon />, light: <SunIcon />, dark: <MoonIcon /> }
 const THEME_TITLES = { system: 'System theme', light: 'Light theme', dark: 'Dark theme' }
 
-export function AppHeader({ theme: t, themeMode, onThemeCycle, onLogoClick }: {
+export function AppHeader({ theme: t, themeMode, onThemeCycle, onLogoClick, isMobile }: {
   theme: Theme
   themeMode: ThemeMode
   onThemeCycle: () => void
   onLogoClick: () => void
+  isMobile?: boolean
 }) {
   return (
     <div style={{
-      padding: '0.75rem 1rem 0.5rem',
+      padding: isMobile ? '0.75rem 1rem' : '0.75rem 1rem 0.5rem',
       borderBottom: `1px solid ${t.border}`,
       background: t.surface,
       display: 'flex',
@@ -41,7 +42,7 @@ export function AppHeader({ theme: t, themeMode, onThemeCycle, onLogoClick }: {
         <img src={`${import.meta.env.BASE_URL}icon.svg`} width={24} height={24} alt="" />
         Markdrop
       </button>
-      <IconButton onClick={onThemeCycle} title={THEME_TITLES[themeMode]} theme={t}>
+      <IconButton onClick={onThemeCycle} title={THEME_TITLES[themeMode]} theme={t} isMobile={isMobile}>
         {THEME_ICONS[themeMode]}
       </IconButton>
     </div>

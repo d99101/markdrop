@@ -24,7 +24,15 @@ function App() {
   const isMobile = useIsMobile()
   const { content, fileName, handleChange, handleFileNameChange, loadMarkdropReadme, readFile, startBlank } = useDocument()
   const { bannerState, onInstall, onDismiss } = useInstallPrompt()
-  const { dragging, onDrop, onDragOver, onDragLeave } = useDragDrop(readFile)
+  const [pendingFile, setPendingFile] = useState<File | null>(null)
+  const handleFileDrop = (file: File) => {
+    if (content !== null && content.trim()) {
+      setPendingFile(file)
+    } else {
+      readFile(file)
+    }
+  }
+  const { dragging, onDrop, onDragOver, onDragLeave } = useDragDrop(handleFileDrop)
   const emptyHint = useToast(2000)
 
   const [viewMode, setViewMode] = useState<ViewMode>('both')
@@ -73,7 +81,7 @@ function App() {
       fontFamily: 'system-ui, sans-serif', background: t.bg, color: t.text,
       outline: dragging ? '3px dashed #4a7fff' : 'none', outlineOffset: '-3px', transition: 'outline 0.1s',
     }}>
-      <AppHeader theme={t} themeMode={themeMode} onThemeCycle={cycleTheme} onLogoClick={loadMarkdropReadme} />
+      <AppHeader theme={t} themeMode={themeMode} onThemeCycle={cycleTheme} onLogoClick={loadMarkdropReadme} isMobile={isMobile} />
       <Toolbar theme={t} fileName={fileName} onFileNameChange={handleFileNameChange} onDownload={handleDownload}
         onReset={() => setShowResetConfirm(true)} viewMode={effectiveViewMode} onViewModeChange={setViewMode} isMobile={isMobile} />
       {showResetConfirm && (
@@ -86,12 +94,22 @@ function App() {
           onCancel={() => setShowResetConfirm(false)}
         />
       )}
+      {pendingFile && (
+        <ConfirmDialog
+          theme={t}
+          message={`Replace current file with "${pendingFile.name}"? Unsaved content will be lost.`}
+          confirmLabel="Replace"
+          cancelLabel="Cancel"
+          onConfirm={() => { readFile(pendingFile); setPendingFile(null) }}
+          onCancel={() => setPendingFile(null)}
+        />
+      )}
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden', minHeight: 0 }}>
         {(effectiveViewMode === 'editor' || effectiveViewMode === 'both') && (
           <ErrorBoundary theme={t}>
             <EditorPane theme={t} content={content} editorViewRef={editorViewRef}
               wordCount={wordCount} charCount={(content ?? '').length}
-              onChange={handleChange} showBorder={effectiveViewMode === 'both'} />
+              onChange={handleChange} showBorder={effectiveViewMode === 'both'} isMobile={isMobile} />
           </ErrorBoundary>
         )}
         {(effectiveViewMode === 'preview' || effectiveViewMode === 'both') && (
@@ -100,7 +118,7 @@ function App() {
           </ErrorBoundary>
         )}
       </div>
-      <Footer theme={t} />
+      <Footer theme={t} wordCount={isMobile ? wordCount : undefined} charCount={isMobile ? (content ?? '').length : undefined} />
       <InstallBanner theme={t} state={bannerState} onInstall={onInstall} onDismiss={onDismiss} />
       {emptyHint.state !== 'hidden' && (
         <div style={{

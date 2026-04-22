@@ -2,15 +2,17 @@
 import { useState, CSSProperties, ReactNode } from 'react'
 import { Theme } from '../../theme'
 
-export function IconButton({ onClick, title, ariaLabel, theme: t, style, children }: {
+export function IconButton({ onClick, title, ariaLabel, theme: t, style, isMobile, children }: {
   onClick: () => void
   title: string
   ariaLabel?: string
   theme: Theme
   style?: CSSProperties
+  isMobile?: boolean
   children: ReactNode
 }) {
   const [hovered, setHovered] = useState(false)
+  const size = isMobile ? 44 : 28
   return (
     <button
       onClick={onClick}
@@ -18,7 +20,7 @@ export function IconButton({ onClick, title, ariaLabel, theme: t, style, childre
       aria-label={ariaLabel ?? title}
       style={{
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        width: 28, height: 28,
+        width: size, height: size,
         border: `1px solid ${t.border}`, borderRadius: '4px',
         background: hovered ? t.hover : 'none',
         cursor: 'pointer', color: t.text,

@@ -79,20 +79,20 @@ export function applyAction(view: EditorView, action: Action) {
   view.focus()
 }
 
-export function MarkdownToolbar({ editorViewRef, theme }: { editorViewRef: RefObject<EditorView | null>; theme: Theme }) {
+export function MarkdownToolbar({ editorViewRef, theme, isMobile }: { editorViewRef: RefObject<EditorView | null>; theme: Theme; isMobile?: boolean }) {
   return (
     <div style={{
       display: 'flex',
       alignItems: 'center',
       gap: '2px',
-      padding: '0.3rem 0.75rem',
+      padding: isMobile ? '0.4rem 0.75rem' : '0.3rem 0.75rem',
       borderBottom: `1px solid ${theme.border}`,
       background: theme.surface,
       flexWrap: 'wrap',
     }}>
       {TOOLS.map((tool, i) => {
         if (tool === 'divider') {
-          return <span key={i} style={{ width: 1, height: 18, background: theme.border, margin: '0 4px' }} />
+          return <span key={i} style={{ width: 1, height: isMobile ? 28 : 18, background: theme.border, margin: '0 4px' }} />
         }
         const s = tool.styleLabel
         return (
@@ -108,19 +108,19 @@ export function MarkdownToolbar({ editorViewRef, theme }: { editorViewRef: RefOb
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '0.2rem 0.45rem',
+              padding: isMobile ? '0.5rem 0.65rem' : '0.2rem 0.45rem',
               border: '1px solid transparent',
               borderRadius: '4px',
               background: 'none',
               cursor: 'pointer',
-              fontSize: '0.85rem',
+              fontSize: isMobile ? '1rem' : '0.85rem',
               fontWeight: s === 'B' ? 700 : 400,
               fontStyle: s === 'I' ? 'italic' : 'normal',
               textDecoration: s === 'S' ? 'line-through' : 'none',
               color: theme.text,
               lineHeight: 1,
-              minWidth: 24,
-              minHeight: 24,
+              minWidth: isMobile ? 44 : 24,
+              minHeight: isMobile ? 44 : 24,
             }}
             onMouseEnter={e => (e.currentTarget.style.background = theme.hover)}
             onMouseLeave={e => (e.currentTarget.style.background = 'none')}
