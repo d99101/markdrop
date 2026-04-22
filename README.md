@@ -2,7 +2,10 @@
 
 A minimal, browser-based Markdown editor. Drop a file, edit, preview — no accounts, no uploads, nothing leaves your device.
 
-**[markdrop →](https://d99101.github.io/markdrop/)**
+**[markdrop →](https://markdrop1.vercel.app)**
+
+![Markdrop light](public/light-screenshot.png#gh-light-mode-only)
+![Markdrop dark](public/dark-screenshot.png#gh-dark-mode-only)
 
 ## Features
 
