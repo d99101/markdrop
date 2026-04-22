@@ -8,3 +8,48 @@ body {
   margin: 0;
   font-family: system-ui, sans-serif;
 }
+
+/* Scrollbar — light mode */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+/* Scrollbar — dark mode */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-thumb {
+    background: #4a4a4a;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #666;
+  }
+}
+
+/* Force dark scrollbar when dark theme is active */
+.dark-scrollbar ::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+}
+.dark-scrollbar ::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+}
+@media (prefers-color-scheme: dark) {
+  * {
+    scrollbar-color: #4a4a4a transparent;
+  }
+}
