@@ -3,10 +3,11 @@ import React, { lazy, Suspense, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import type { SyntaxHighlighterProps } from 'react-syntax-highlighter'
 import { Theme } from '../../theme'
 
 const SyntaxHighlighter = lazy(() =>
-  import('react-syntax-highlighter').then(m => ({ default: m.Prism as any }))
+  import('react-syntax-highlighter').then(m => ({ default: m.Prism as React.ComponentType<SyntaxHighlighterProps> }))
 )
 
 function buildMarkdownComponents(t: Theme): React.ComponentProps<typeof ReactMarkdown>['components'] {
