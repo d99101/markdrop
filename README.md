@@ -4,8 +4,8 @@ A minimal, browser-based Markdown editor. Drop a file, edit, preview — no acco
 
 **[markdrop →](https://markdrop1.vercel.app)**
 
-![Markdrop light](public/light-screenshot.png#gh-light-mode-only)
-![Markdrop dark](public/dark-screenshot.png#gh-dark-mode-only)
+<img src="public/light-screenshot.png#gh-light-mode-only" width="800" alt="Markdrop light" />
+<img src="public/dark-screenshot.png#gh-dark-mode-only" width="800" alt="Markdrop dark" />
 
 ## Features
 

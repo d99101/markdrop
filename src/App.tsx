@@ -132,6 +132,7 @@ function App() {
   }, [])
 
   const loadMarkdropReadme = useCallback(() => {
+    contentRef.current = MARKDROP_README
     setContent(MARKDROP_README)
     setFileName('README.md')
     sessionStorage.setItem(SESSION_KEY, MARKDROP_README)
@@ -272,7 +273,7 @@ function App() {
         {/* Download */}
         <IconButton
           onClick={() => {
-            const blob = new Blob([contentRef.current], { type: 'text/markdown' })
+            const blob = new Blob([content ?? ''], { type: 'text/markdown' })
             const url = URL.createObjectURL(blob)
             const a = document.createElement('a')
             a.href = url
