@@ -5,6 +5,7 @@ import { useTheme } from './useTheme'
 import { useIsMobile } from './hooks/useIsMobile'
 import { useDocument } from './hooks/useDocument'
 import { useInstallPrompt } from './hooks/useInstallPrompt'
+import { useUpdatePrompt } from './hooks/useUpdatePrompt'
 import { useScrollSync } from './hooks/useScrollSync'
 import { useDragDrop } from './hooks/useDragDrop'
 import { useToast } from './hooks/useToast'
@@ -15,6 +16,7 @@ import { PreviewPane } from './components/PreviewPane'
 import { Footer } from './components/Footer'
 import { WelcomeModal } from './components/WelcomeModal'
 import { InstallBanner } from './components/InstallBanner'
+import { UpdateBanner } from './components/UpdateBanner'
 import { ConfirmDialog } from './components/ConfirmDialog'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import type { ViewMode } from './components/SegmentedControl'
@@ -32,6 +34,7 @@ function App() {
     startBlank,
   } = useDocument()
   const { bannerState, onInstall, onDismiss } = useInstallPrompt()
+  const { needRefresh, update } = useUpdatePrompt()
   const [pendingFile, setPendingFile] = useState<File | null>(null)
   const handleFileDrop = (file: File) => {
     if (content !== null && content.trim()) {
@@ -79,15 +82,18 @@ function App() {
 
   if (content === null) {
     return (
-      <WelcomeModal
-        theme={t}
-        dragging={dragging}
-        onDrop={onDrop}
-        onDragOver={onDragOver}
-        onDragLeave={onDragLeave}
-        onStartBlank={startBlank}
-        onOpenFile={readFile}
-      />
+      <>
+        <WelcomeModal
+          theme={t}
+          dragging={dragging}
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+          onStartBlank={startBlank}
+          onOpenFile={readFile}
+        />
+        {needRefresh && <UpdateBanner theme={t} onUpdate={update} />}
+      </>
     )
   }
 
@@ -180,6 +186,7 @@ function App() {
         charCount={isMobile ? (content ?? '').length : undefined}
       />
       <InstallBanner theme={t} state={bannerState} onInstall={onInstall} onDismiss={onDismiss} />
+      {needRefresh && <UpdateBanner theme={t} onUpdate={update} />}
       {emptyHint.state !== 'hidden' && (
         <div
           style={{
