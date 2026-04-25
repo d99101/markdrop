@@ -38,7 +38,7 @@ export function WelcomeModal({
         transition: 'background 0.15s',
       }}
     >
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 1.5rem' }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div
           style={{
             width: '100%',

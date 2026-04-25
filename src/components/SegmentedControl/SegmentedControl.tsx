@@ -23,6 +23,7 @@ export function SegmentedControl({
         border: `1px solid ${t.border}`,
         borderRadius: '5px',
         overflow: 'hidden',
+        minWidth: 0,
       }}
     >
       {options.map((opt) => (
@@ -30,7 +31,9 @@ export function SegmentedControl({
           key={opt.value}
           onClick={() => onChange(opt.value)}
           style={{
-            padding: isMobile ? '0.6rem 1.1rem' : '0.25rem 0.75rem',
+            flex: 1,
+            minWidth: 0,
+            padding: isMobile ? '0.6rem 0.5rem' : '0.25rem 0.75rem',
             border: 'none',
             borderLeft: opt.value !== options[0].value ? `1px solid ${t.border}` : 'none',
             background: value === opt.value ? t.activeBg : 'transparent',
@@ -38,6 +41,10 @@ export function SegmentedControl({
             cursor: 'pointer',
             fontSize: '0.8rem',
             fontWeight: 500,
+            textAlign: 'center',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
           }}
         >
           {opt.label}
