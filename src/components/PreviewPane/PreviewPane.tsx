@@ -122,16 +122,23 @@ export const PreviewPane = React.memo(function PreviewPane({
       ref={previewRef}
       style={{
         flex: 1,
-        padding: '1rem 2rem',
         overflowY: 'auto',
-        lineHeight: 1.7,
         background: t.bg,
         color: t.text,
       }}
     >
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
-        {content}
-      </ReactMarkdown>
+      <div
+        style={{
+          maxWidth: '720px',
+          margin: '0 auto',
+          padding: '1rem 2rem',
+          lineHeight: 1.7,
+        }}
+      >
+        <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+          {content}
+        </ReactMarkdown>
+      </div>
     </div>
   )
 })
