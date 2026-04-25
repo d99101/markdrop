@@ -55,8 +55,10 @@ export function SegmentedControl({
           title={opt.label}
           style={{
             flex: 1,
-            minWidth: 0,
-            padding: isMobile ? '0.6rem 0.9rem' : '0.25rem 0.65rem',
+            width: isMobile ? 44 : undefined,
+            height: isMobile ? 44 : undefined,
+            minWidth: isMobile ? 44 : 0,
+            padding: isMobile ? 0 : '0.25rem 0.65rem',
             border: 'none',
             borderLeft: opt.value !== options[0].value ? `1px solid ${t.border}` : 'none',
             background: value === opt.value ? t.activeBg : 'transparent',
