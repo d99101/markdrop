@@ -43,6 +43,7 @@ export function WelcomeModal({
           style={{
             width: '100%',
             maxWidth: 440,
+            margin: '0 1rem',
             border: dragging ? '2px dashed #4a7fff' : `2px dashed ${t.border}`,
             borderRadius: '12px',
             padding: '2.5rem 2rem',
